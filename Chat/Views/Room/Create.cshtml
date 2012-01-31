@@ -1,0 +1,19 @@
+﻿@model Chat.ViewModels.RoomCreateViewModel
+@using Chat.Helpers
+@{
+	ViewBag.Title = "Create";
+}
+<h2>Create Room</h2>
+@using(Html.BeginForm())
+{
+	@Html.LabelFor(m => m.Name)
+	@Html.TextBoxFor(m => m.Name)
+	@Html.ValidationMessageFor(m => m.Name)
+	<br />
+	<button type="submit">create room</button>
+}
+
+@section Scripts{
+	@Html.Script("jquery.validate.min.js")
+	@Html.Script("jquery.validate.unobtrusive.min.js")
+}

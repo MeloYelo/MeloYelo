@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ChatModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="ChatModelStoreContainer">
+    <EntitySet Name="Messages" EntityType="ChatModel.Store.Messages" store:Type="Tables" />
+    <EntitySet Name="Rooms" EntityType="ChatModel.Store.Rooms" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="ChatModel.Store.Users" store:Type="Tables" />
+    <AssociationSet Name="Messages_Rooms_RoomId" Association="ChatModel.Store.Messages_Rooms_RoomId">
+      <End Role="Rooms" EntitySet="Rooms" />
+      <End Role="Messages" EntitySet="Messages" />
+    </AssociationSet>
+    <AssociationSet Name="Messages_Users_InsertUserId" Association="ChatModel.Store.Messages_Users_InsertUserId">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Messages" EntitySet="Messages" />
+    </AssociationSet>
+    <AssociationSet Name="Rooms_Users_InsertUserId" Association="ChatModel.Store.Rooms_Users_InsertUserId">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Rooms" EntitySet="Rooms" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Messages">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="InsertUserId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Text" Type="ntext" Nullable="false" />
+    <Property Name="InsertDateTime" Type="datetime" Nullable="false" />
+    <Property Name="RoomId" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Rooms">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="32" />
+    <Property Name="InsertDateTime" Type="datetime" Nullable="false" />
+    <Property Name="InsertUserId" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="32" />
+    <Property Name="InsertDateTime" Type="datetime" Nullable="false" />
+  </EntityType>
+  <Association Name="Messages_Rooms_RoomId">
+    <End Role="Rooms" Type="ChatModel.Store.Rooms" Multiplicity="1" />
+    <End Role="Messages" Type="ChatModel.Store.Messages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rooms">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Messages">
+        <PropertyRef Name="RoomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Messages_Users_InsertUserId">
+    <End Role="Users" Type="ChatModel.Store.Users" Multiplicity="1" />
+    <End Role="Messages" Type="ChatModel.Store.Messages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Messages">
+        <PropertyRef Name="InsertUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Rooms_Users_InsertUserId">
+    <End Role="Users" Type="ChatModel.Store.Users" Multiplicity="1" />
+    <End Role="Rooms" Type="ChatModel.Store.Rooms" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Rooms">
+        <PropertyRef Name="InsertUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

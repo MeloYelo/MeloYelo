@@ -1,0 +1,35 @@
+﻿@model Chat.ViewModels.RoomChatViewModel
+@{
+	ViewBag.Title = "Chat";
+}
+<h2>@Model.Room.Name</h2>
+<div room-id="@Model.Room.Id" class="chat-room-container">
+	<input type="hidden" class="chat-users-current" value="@Model.CurrentUser.Id" />
+	<div class="chat-users-container">
+	</div>
+	<div class="chat-messages-container">
+	</div>
+	<div class="chat-compose-container">
+		<textarea placeholder="enter message here"></textarea>
+		<br />
+		<button type="button">send</button>
+	</div>
+</div>
+@section Scripts{
+	<script type="text/javascript">
+		$(document).ready(function()
+		{
+			alert("Hello World!");
+		});
+
+		function RefreshUsers()
+		{
+
+		}
+
+		function RefreshMessages()
+		{
+
+		}
+	</script>
+}

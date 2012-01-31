@@ -1,0 +1,17 @@
+﻿@model Chat.ViewModels.UserCreateViewModel
+@using Chat.Helpers
+@{
+	ViewBag.Title = "Create";
+}
+@using(Html.BeginForm())
+{
+	@Html.LabelFor(m => m.Name)
+	@Html.TextBoxFor(m => m.Name)
+	@Html.ValidationMessageFor(m => m.Name)
+	<br />
+	<button type="submit">create user</button>
+}
+@section Scripts{
+	@Html.Script("jquery.validate.min.js")
+	@Html.Script("jquery.validate.unobtrusive.min.js")
+}

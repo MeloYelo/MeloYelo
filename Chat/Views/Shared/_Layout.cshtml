@@ -1,0 +1,49 @@
+﻿@using Chat.Helpers
+@{
+	var currentUser = Session["CurrentUser"] as Chat.Models.User;
+}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" /><title>@ViewBag.Title</title>
+	@Html.Style("http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.17/themes/black-tie/jquery-ui.css", true)
+	@Html.Style("Site.css")
+	@RenderSection("Styles", false)
+</head>
+<body>
+	<div id="CurrentUserInfo">
+		@if(@currentUser != null)
+  {
+			@currentUser.Name
+			@:-
+			@Html.ActionLink("log off", "LogOff", "User", new { }, new { })
+  }
+  else
+  {
+			@Html.ActionLink("log on", "Create", "User", new { }, new { })
+  }
+	</div>
+	<div id="Messages">
+		@{
+			List<GlobalMessage> messages = TempData["GlobalMessages"] as List<GlobalMessage>;
+			if(messages != null)
+			{
+				foreach(var message in messages)
+				{
+			<div class="@message.CssClass">
+				@message.Text
+			</div>
+				}
+			}
+		}
+	</div>
+	@RenderBody()
+	<div id="Scripts">
+		@Html.Script("jquery-1.7.1.min.js")
+		@Html.Script("jquery-ui-1.8.17.min.js")
+		@Html.Script("modernizr-2.0.6-development-only.js")
+		@Html.Script("Site.js")
+		@RenderSection("Scripts", false)
+	</div>
+</body>
+</html>
