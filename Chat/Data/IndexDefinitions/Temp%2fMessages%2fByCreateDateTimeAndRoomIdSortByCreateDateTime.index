@@ -1,0 +1,20 @@
+{
+  "Name": "Temp/Messages/ByCreateDateTimeAndRoomIdSortByCreateDateTime",
+  "Map": "from doc in docs.Messages\r\nselect new { CreateDateTime = doc.CreateDateTime, RoomId = doc.RoomId }",
+  "Maps": [
+    "from doc in docs.Messages\r\nselect new { CreateDateTime = doc.CreateDateTime, RoomId = doc.RoomId }"
+  ],
+  "Reduce": null,
+  "TransformResults": null,
+  "IsMapReduce": false,
+  "IsCompiled": false,
+  "IsTemp": true,
+  "Stores": {},
+  "Indexes": {},
+  "SortOptions": {
+    "CreateDateTime": "String"
+  },
+  "Analyzers": {},
+  "Fields": [],
+  "Type": "Temp"
+}

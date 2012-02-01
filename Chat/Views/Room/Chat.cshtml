@@ -2,7 +2,10 @@
 @{
 	ViewBag.Title = "Chat";
 }
-<h2>@Model.Room.Name</h2>
+<h2>
+	@Model.Room.Name
+</h2>
+<a href="#" onclick="RefreshUserInterface(); return false;">refresh</a> <br />
 <div room-id="@Model.Room.Id" class="chat-room-container">
 	<input type="hidden" class="chat-users-current" value="@Model.CurrentUser.Id" />
 	<div class="chat-users-container">
@@ -12,21 +15,84 @@
 	<div class="chat-compose-container">
 		<textarea placeholder="enter message here"></textarea>
 		<br />
-		<button type="button">
-			send</button>
+		<button type="button">send</button>
 	</div>
 </div>
 @section Scripts{
 	<script type="text/javascript">
-		$(document).ready(function () {
+		$(document).ready(function()
+		{
+		$('.chat-compose-container button').click(function () {
+			var requestData = {};
+			requestData.roomId = "@Model.Room.Id";
+			requestData.text = $(".chat-compose-container textarea").val();
+			var url = "@(Url.Action("SubmitMessage", "Room"))";
+			$.post(url,requestData,function (data){if(data.Success){ RefreshUserInterface(); $(".chat-compose-container textarea").val(''); }else if(data.Message){ alert(data.Message); }else{ alert("There was a problem submitting the message"); }});
 		});
 
-		function RefreshUsers() {
+		RefreshUserInterface();
+		});
 
+		function RefreshUserInterface()
+		{
+		RefreshMessages();
+		RefreshUsers();
+		}
+
+		function RefreshUsers()
+		{
+			var url = "@(Url.Action("ListUsers", "Room", new { roomId = Model.Room.Id }))";
+			$('.chat-users-container').load(url);
 		}
 
 		function RefreshMessages() {
-
+			var url = "@(Url.Action("ListMessages", "Room", new { roomId = Model.Room.Id }))";
+			$('.chat-messages-container').load(url);
 		}
+
 	</script>
+}
+
+@section Styles{
+	<style type="text/css">
+		.chat-room-container
+		{
+			max-width: 400px;
+			max-height: 800px;
+			min-width: 200px;
+			min-height: 25px;
+			overflow: auto;
+		}
+		.chat-users-container,
+		.chat-messages-container
+		{
+			padding: 10px;
+			border: 1px solid #444;
+		}
+		.chat-users-container ul
+		{
+			margin: 0px;
+			padding: 0px;
+			list-style: none;
+		}
+		.chat-users-container ul li
+		{
+			margin-left: 10px;
+		}
+		.chat-messages-container ul
+		{
+			margin: 0px;
+			padding: 0px;
+			list-style: none;
+		}
+		.chat-messages-container ul li
+		{
+			margin-left: 10px;
+		}
+		.message-user
+		{
+			font-size: 9px;
+			font-weight: bold;
+		}
+	</style>
 }

@@ -27,6 +27,7 @@ namespace Chat.Models
 		public string Text { get; set; }
 		public DateTime CreateDateTime { get; set; }
 		public string CreateUserId { get; set; }
+		public string CreateUserName { get; set; }
 	}
 
 	public class RoomUser

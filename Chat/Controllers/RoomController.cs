@@ -44,6 +44,15 @@ namespace Chat.Controllers
 		[HttpGet]
 		public ActionResult Chat(string roomId)
 		{
+			var roomUser = DocumentSession.Query<RoomUser>().SingleOrDefault(r => r.RoomId == roomId && r.UserId == CurrentUser.Id);
+			if(roomUser == null)
+			{
+				roomUser = new RoomUser { UserId = CurrentUser.Id, UserName = CurrentUser.Name, RoomId = roomId };
+				DocumentSession.Store(roomUser);
+			}
+			roomUser.LastActivity = DateTime.Now;
+			DocumentSession.SaveChanges();
+
 			var room = DocumentSession.Query<Room>().SingleOrDefault(r => r.Id == roomId);
 			if(room == null)
 			{
@@ -57,15 +66,22 @@ namespace Chat.Controllers
 
 		public ActionResult ListUsers(string roomId)
 		{
-			var room = DocumentSession.Query<Room>().SingleOrDefault(r => r.Id == roomId);
-			if(room == null)
+			var roomUser = DocumentSession.Query<RoomUser>().SingleOrDefault(r => r.RoomId == roomId && r.UserId == CurrentUser.Id);
+			var roomUsers = DocumentSession.Query<RoomUser>().Where(r => r.RoomId == roomId).OrderByDescending(r => r.LastActivity).ToList();
+			if(roomUser == null)
 			{
-				return RedirectToAction("Create");
+				roomUser = new RoomUser() { LastActivity = DateTime.Now, RoomId = roomId, UserId = CurrentUser.Id, UserName = CurrentUser.Name };
+				DocumentSession.Store(roomUser);
+				DocumentSession.SaveChanges();
+				roomUsers.Add(roomUser);
 			}
-			var model = new RoomChatViewModel();
-			model.CurrentUser = CurrentUser;
-			model.Room = room;
-			return View(model);
+			return PartialView("_ListUsers", roomUsers);
+		}
+
+		public ActionResult ListMessages(string roomId)
+		{
+			var users = DocumentSession.Query<Message>().Where(r => r.RoomId == roomId).OrderBy(r => r.CreateDateTime).ToList();
+			return PartialView("_ListMessages", users);
 		}
 
 		public ActionResult SubmitMessage(RoomSubmitMessageViewModel model)
@@ -96,7 +112,8 @@ namespace Chat.Controllers
 				CreateDateTime = DateTime.Now,
 				CreateUserId = CurrentUser.Id,
 				RoomId = room.Id,
-				Text = model.Text
+				Text = model.Text,
+				CreateUserName = CurrentUser.Name
 			};
 			DocumentSession.Store(message);
 			DocumentSession.SaveChanges();

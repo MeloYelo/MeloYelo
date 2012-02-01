@@ -1,0 +1,9 @@
+﻿@model List<Chat.Models.RoomUser>
+<ul>
+	@foreach(var item in Model)
+ {
+		<li user-id="@item.UserId">
+			@item.UserName
+		</li>
+ }
+</ul>
