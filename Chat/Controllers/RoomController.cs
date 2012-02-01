@@ -67,5 +67,40 @@ namespace Chat.Controllers
 			model.Room = room;
 			return View(model);
 		}
+
+		public ActionResult SubmitMessage(RoomSubmitMessageViewModel model)
+		{
+			if(!ModelState.IsValid)
+			{
+				return Json(new { Success = false, Message = "Not valid" });
+			}
+			var room = DocumentSession.Query<Room>().SingleOrDefault(m => m.Id == model.RoomId);
+			if(room == null)
+			{
+				return Json(new { Success = false, Message = "Not valid room id" });
+			}
+
+			var roomUser = DocumentSession.Query<RoomUser>().SingleOrDefault(r => r.UserId == CurrentUser.Id && r.RoomId == room.Id);
+			if(roomUser == null)
+			{
+				roomUser = new RoomUser() { Id = room.Id + "-" + CurrentUser.Id, LastActivity = DateTime.Now, RoomId = room.Id, UserId = CurrentUser.Id, UserName = CurrentUser.Name };
+				DocumentSession.Store(roomUser);
+			}
+			else
+			{
+				roomUser.LastActivity = DateTime.Now;
+			}
+
+			Message message = new Message()
+			{
+				CreateDateTime = DateTime.Now,
+				CreateUserId = CurrentUser.Id,
+				RoomId = room.Id,
+				Text = model.Text
+			};
+			DocumentSession.Store(message);
+			DocumentSession.SaveChanges();
+			return Json(new { Success = true });
+		}
 	}
 }

@@ -24,4 +24,13 @@ namespace Chat.ViewModels
 		public Room Room { get; set; }
 		public User CurrentUser { get; set; }
 	}
+
+	public class RoomSubmitMessageViewModel
+	{
+		[Required]
+		public string RoomId { get; set; }
+
+		[Required]
+		public string Text { get; set; }
+	}
 }
