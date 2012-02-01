@@ -59,6 +59,7 @@ namespace Chat.Controllers
 		public ActionResult LogOff()
 		{
 			CurrentUser = null;
+			Session.Clear();
 			FormsAuthentication.SignOut();
 			return Redirect("~/");
 		}
