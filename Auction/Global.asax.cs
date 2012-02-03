@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Raven.Client.Embedded;
+using Auction.Controllers;
 
 namespace Auction
 {
@@ -35,6 +37,12 @@ namespace Auction
 
 			RegisterGlobalFilters(GlobalFilters.Filters);
 			RegisterRoutes(RouteTable.Routes);
+			var doc = new EmbeddableDocumentStore { DataDirectory = "Data", UseEmbeddedHttpServer = true };
+			doc.Conventions.IdentityPartsSeparator = "-";
+			doc.Initialize();
+			Application["DocumentStore"] = doc;
+
+			ControllerBuilder.Current.SetControllerFactory(typeof(CustomControllerFactory));
 		}
 	}
 }
