@@ -1,0 +1,76 @@
+@model WeddingAddress.Models.Address
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.Name)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.Name)
+    @Html.ValidationMessageFor(model => model.Name)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.Line1)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.Line1)
+    @Html.ValidationMessageFor(model => model.Line1)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.Line2)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.Line2)
+    @Html.ValidationMessageFor(model => model.Line2)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.City)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.City)
+    @Html.ValidationMessageFor(model => model.City)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.State)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.State)
+    @Html.ValidationMessageFor(model => model.State)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.Zip)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.Zip)
+    @Html.ValidationMessageFor(model => model.Zip)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.Message)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.Message)
+    @Html.ValidationMessageFor(model => model.Message)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.InsertDateTime)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.InsertDateTime)
+    @Html.ValidationMessageFor(model => model.InsertDateTime)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.IPAddress)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.IPAddress)
+    @Html.ValidationMessageFor(model => model.IPAddress)
+</div>
+

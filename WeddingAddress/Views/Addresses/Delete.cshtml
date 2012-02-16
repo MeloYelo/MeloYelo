@@ -1,0 +1,47 @@
+@model WeddingAddress.Models.Address
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Address</legend>
+
+    <div class="display-label">Name</div>
+    <div class="display-field">@Model.Name</div>
+
+    <div class="display-label">Line1</div>
+    <div class="display-field">@Model.Line1</div>
+
+    <div class="display-label">Line2</div>
+    <div class="display-field">@Model.Line2</div>
+
+    <div class="display-label">City</div>
+    <div class="display-field">@Model.City</div>
+
+    <div class="display-label">State</div>
+    <div class="display-field">@Model.State</div>
+
+    <div class="display-label">Zip</div>
+    <div class="display-field">@Model.Zip</div>
+
+    <div class="display-label">Message</div>
+    <div class="display-field">@Model.Message</div>
+
+    <div class="display-label">InsertDateTime</div>
+    <div class="display-field">@String.Format("{0:g}", Model.InsertDateTime)</div>
+
+    <div class="display-label">IPAddress</div>
+    <div class="display-field">@Model.IPAddress</div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}
+
+
